@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="3" passed="3">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="29" started-at="2014-08-08T13:33:41Z" finished-at="2014-08-08T13:33:41Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="29" started-at="2014-08-08T13:33:41Z" finished-at="2014-08-08T13:33:41Z">
+      <class name="hu.deadcode.renamer.ConfigTest">
+        <test-method status="PASS" signature="testGetFileTypes()[pri:0, instance:hu.deadcode.renamer.ConfigTest@5d280ee5]" name="testGetFileTypes" duration-ms="14" started-at="2014-08-08T15:33:41Z" finished-at="2014-08-08T15:33:41Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetFileTypes -->
+        <test-method status="PASS" signature="testGetInput()[pri:0, instance:hu.deadcode.renamer.ConfigTest@5d280ee5]" name="testGetInput" duration-ms="1" started-at="2014-08-08T15:33:41Z" finished-at="2014-08-08T15:33:41Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetInput -->
+        <test-method status="PASS" signature="testGetOutput()[pri:0, instance:hu.deadcode.renamer.ConfigTest@5d280ee5]" name="testGetOutput" duration-ms="1" started-at="2014-08-08T15:33:41Z" finished-at="2014-08-08T15:33:41Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetOutput -->
+      </class> <!-- hu.deadcode.renamer.ConfigTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

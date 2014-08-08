@@ -1,19 +1,13 @@
 package hu.deadcode.renamer;
 
-import java.io.File;
+public class App {
+	private static Config config = new Config();
+	private static Logic logic = new Logic(config);
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-    	String path = UI.GetPath();
-    	UI.PrintOut("Finding image files in : " + path);
-        Logic logic = new Logic(path);
-        int count = logic.RenameFiles();
-        UI.PrintOut("The program rename " + Integer.toString(count) + " files");
-    }
+	public static void main(String[] args) {
+		String path = UI.GetPath();
+		UI.PrintOut("Finding image files in : " + path);
+		int count = logic.RenameFiles();
+		UI.PrintOut("The program rename " + Integer.toString(count) + " files");
+	}
 }

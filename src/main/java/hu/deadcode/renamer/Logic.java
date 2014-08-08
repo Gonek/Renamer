@@ -5,32 +5,20 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import sun.java2d.pipe.NullPipe;
+import java.util.List;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
-import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
-import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 
 public class Logic {
 
-	private String directory;
+	private Config config;
 	private File[] imageFiles;
 
-	public Logic(String directory) {
-		super();
-		this.directory = directory;
-	}
-
-	public String getDirectory() {
-		return directory;
-	}
-
-	public void setDirectory(String directory) {
-		this.directory = directory;
+	public Logic(Config config) {
+		this.config = config;
 	}
 
 	public File[] getImageFiles() {
@@ -43,15 +31,17 @@ public class Logic {
 	}
 
 	private File[] ListPicturesInDirectory() {
-		File f = new File(directory);
+		File f = new File(config.GetInputPath());
+		final List<String> fileTypes = config.GetFileTypes();
 		File[] matchingFiles = f.listFiles(new FilenameFilter() {
+			@Override
 			public boolean accept(File dir, String name) {
 				name = name.toUpperCase();
-				return name.endsWith("JPG") || 
-					   name.endsWith("JPEG") || 
-					   name.endsWith("MP4") ||
-					   name.endsWith("MOV") ||
-					   name.endsWith("GIF");
+				boolean isFileType = false;
+				for (String fileType : fileTypes) {
+					isFileType = isFileType || name.endsWith(fileType);
+				}
+				return isFileType;
 			}
 		});
 		return matchingFiles;
@@ -74,7 +64,7 @@ public class Logic {
 		try {
 			metadata = ImageMetadataReader.readMetadata(img);
 			date = GetImgOriginalDate(metadata);
-		} catch (NullPointerException| ImageProcessingException | IOException e) {
+		} catch (NullPointerException | ImageProcessingException | IOException e) {
 			date = GetModificationDate(img);
 		}
 		return date;
@@ -83,7 +73,8 @@ public class Logic {
 	private Date GetImgOriginalDate(Metadata metadata) throws NullPointerException {
 		ExifSubIFDDirectory dir = metadata.getDirectory(ExifSubIFDDirectory.class);
 		Date date = dir.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
-		if (date == null) throw new NullPointerException();
+		if (date == null)
+			throw new NullPointerException();
 		return date;
 	}
 
@@ -92,7 +83,8 @@ public class Logic {
 	}
 
 	private String GetNewFileName(Date date, int num, String extension) {
-		return directory + "\\" + new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(date) + (num > 0 ? "(" + Integer.toString(num) + ")" : "") + "." + extension;
+		return config.GetOutputPath() + "\\" + new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(date) + (num > 0 ? "(" + Integer.toString(num) + ")" : "")
+				+ "." + extension;
 	}
 
 	private File GetNewFile(File oldFile) {
@@ -105,13 +97,13 @@ public class Logic {
 
 		return file;
 	}
-	
-	private String GetExtension(File file){
+
+	private String GetExtension(File file) {
 		String extension = "";
 		String fileName = file.getName();
 		int i = fileName.lastIndexOf('.');
 		if (i > 0) {
-		    extension = fileName.substring(i+1);
+			extension = fileName.substring(i + 1);
 		}
 		return extension;
 	}

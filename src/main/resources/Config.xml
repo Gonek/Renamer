@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <input_path>D:\képek\Input\</input_path>
+    <output_path>D:\képek\</output_path>
+    <file_types>
+        <file_type>JPG</file_type>
+        <file_type>JPEG</file_type>
+        <file_type>MOV</file_type>
+        <file_type>MP4</file_type>
+    </file_types>
+</configuration>
