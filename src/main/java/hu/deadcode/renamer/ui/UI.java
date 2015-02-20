@@ -16,6 +16,10 @@ public class UI {
 	public static void printRename(String oldFilename, String newFilename) {
 		System.out.println(oldFilename + " >>> " + newFilename);
 	}
+	
+	public static void printErrorOnRename(String errorMessage, String filename) {
+		System.out.println("Error in '" + filename + "' file rename. Reason: "+ errorMessage);
+	}
 
 	public static void printOut(String msg) {
 		System.out.println(msg);

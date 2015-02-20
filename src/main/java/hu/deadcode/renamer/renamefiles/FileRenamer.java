@@ -22,12 +22,23 @@ public class FileRenamer {
 	private int renameImgFiles(List<File> imageFiles) {
 		int count = 0;
 		for (File img : imageFiles) {
-			File newImg = getNewFile(img);
-			img.renameTo(newImg);
-			UI.printRename(img.getName(), newImg.getName());
-			count++;
+			if(renameImgFile(img)){
+				count++;
+			}
 		}
 		return count;
+	}
+	
+	private boolean renameImgFile(File oldImg) {
+		try{
+			File newImg = getNewFile(oldImg);
+			oldImg.renameTo(newImg);
+			UI.printRename(oldImg.getName(), newImg.getName());
+			return true;
+		}catch(Exception e){
+			UI.printErrorOnRename(e.getMessage(), oldImg.getName());
+			return false;	
+		}
 	}
 
 	private String getNewFileName(Date date, int num, String extension) {
@@ -35,13 +46,20 @@ public class FileRenamer {
 				+ (num > 0 ? "(" + Integer.toString(num) + ")" : "") + "." + extension;
 	}
 
-	private File getNewFile(File oldFile) {
+	private File getNewFile(File oldFile) throws Exception {
 		File file;
 		int num = 0;
+		boolean newNameFound = false;
 		do {
 			file = new File(getNewFileName(getImgDate(oldFile), num, getExtension(oldFile)));
-			num++;
-		} while (file.exists() && !isEquals(oldFile, file));
+			if(!file.exists()){
+				newNameFound = true;
+			}else if(isEquals(oldFile, file)){
+				throw new Exception("File already exist");
+			}else{
+				num++;
+			}
+		} while (!newNameFound);
 
 		return file;
 	}
